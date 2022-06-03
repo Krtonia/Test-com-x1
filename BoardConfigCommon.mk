@@ -32,12 +32,16 @@ TARGET_NO_BOOTLOADER := true
 # Kernel
 BOARD_BOOT_HEADER_VERSION := 1
 BOARD_KERNEL_BASE := 0x00000000
-BOARD_KERNEL_CMDLINE := console=ttyMSM0,115200n8 earlycon=msm_geni_serial,0xA84000 androidboot.hardware=qcom androidboot.console=ttyMSM0 video=vfb:640x400,bpp=32,memsize=3072000 msm_rtb.filter=0x237 ehci-hcd.park=3 lpm_levels.sleep_disabled=1 service_locator.enable=1 swiotlb=2048 androidboot.configfs=true loop.max_part=7 androidboot.usbcontroller=a600000.dwc3
+BOARD_KERNEL_CMDLINE := console=ttyMSM0,115200n8 earlycon=msm_geni_serial,0xA84000 androidboot.hardware=qcom androidboot.console=ttyMSM0 msm_rtb.filter=0x237 ehci-hcd.park=3 lpm_levels.sleep_disabled=1 service_locator.enable=1 swiotlb=2048 androidboot.configfs=true loop.max_part=7 androidboot.usbcontroller=a600000.dwc3
 BOARD_KERNEL_IMAGE_NAME := Image.gz-dtb
 BOARD_KERNEL_PAGESIZE := 4096
 BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOT_HEADER_VERSION)
 TARGET_KERNEL_ARCH := arm64
-TARGET_KERNEL_SOURCE := kernel/xiaomi/sdm845
+ifeq ($(TARGET_PREBUILT_KERNEL),)
+  TARGET_KERNEL_CLANG_COMPILE := true
+  TARGET_KERNEL_CLANG_VERSION := proton
+  TARGET_KERNEL_SOURCE := kernel/xiaomi/sdm845
+endif
 
 # Platform
 TARGET_BOARD_PLATFORM := sdm845
@@ -155,3 +159,9 @@ WPA_SUPPLICANT_VERSION := VER_0_8_X
 
 # Broken Rules
 BUILD_BROKEN_DUP_RULES := true
+BUILD_BROKEN_USES_BUILD_COPY_HEADERS := true
+BUILD_BROKEN_ELF_PREBUILT_PRODUCT_COPY_FILES := true
+BUILD_BROKEN_PREBUILT_ELF_FILES := true
+RELAX_USES_LIBRARY_CHECK := true
+SELINUX_IGNORE_NEVERALLOWS := true
+BUILD_BROKEN_MISSING_REQUIRED_MODULES := true
