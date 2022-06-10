@@ -321,9 +321,6 @@ PRODUCT_PACKAGES += \
 # Recovery
 PRODUCT_PACKAGES += \
     librecovery_updater_xiaomi
-    
-# WfdCommon
--include vendor/xiaomi/sm6150-common-extra/wfd.mk
 
 # RenderScript
 PRODUCT_PACKAGES += \
